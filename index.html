@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>my one thangs</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <style>
+      @font-face {
+        font-family: akzidenz-grotesk-webfont;
+        src: local('Akzidenz-Grotesk BQ Medium'),
+             url('akzidenzgrotesk-medium-webfont.woff') format('woff'),
+             url('akzidenzgrotesk-medium-webfont.ttf') format('truetype'),
+             url('akzidenzgrotesk-medium-webfont.svg#akzidenz-grotesk_bqmedium') format('svg');
+        font-weight: 500;
+        font-style: normal;
+      }
+      * {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html, body, form, label {
+        height: 100%;
+        width: 100%;
+      }
+      body {
+        background: #16a085;
+      }
+      label {
+        cursor: pointer;
+        display: block;
+      }
+      input {
+        background: none;
+        border: 0;
+        color: #fff;
+        display: block;
+        font: 500 5em/1.2 "Akzidenz-Grotesk BQ", akzidenz-grotesk-webfont, sans-serif;
+        height: 100%;
+        margin: 0 auto;
+        max-width: 60em;
+        outline: none;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <label><input type="text" placeholder="what’s your ONE thang?"></label>
+    </form>
+    <script>
+      window.addEventListener('load', function () {
+        var colors = [
+          '#16a085', '#27ae60', '#2980b9', '#8e44ad', '#2c3e50', '#f39c12',
+          '#d35400', '#c0392b', '#1abc9c', '#2ecc71', '#3498db', '#34495e',
+          '#f1c40f', '#e67e22', '#e74c3c'
+        ];
+
+        function randomIndex(array) {
+          return Math.floor(Math.random() * array.length);
+        }
+
+        var colorIdx = randomIndex(colors);
+        document.body.style.backgroundColor = colors[colorIdx];
+
+        var input = document.querySelector('input');
+
+        if ('thang' in localStorage) {
+          input.value = localStorage.thang;
+        }
+
+        document.forms[0].addEventListener('submit', function (e) {
+          e.preventDefault();
+          input.blur();
+          localStorage.thang = input.value;
+        });
+
+        input.addEventListener('blur', blurInput);
+        input.addEventListener('input', blurInput);
+
+        function blurInput(e) {
+          setTimeout(function () {
+            if (input.value === localStorage.thang) {
+              // If the field is focussed, and the value hasn't changed since
+              // the last save, then blur the field.
+              input.blur();
+            }
+          }, 1000);
+
+          var value = input.value;
+          setTimeout(function () {
+            if (input.value === value) {
+              // If it's been a while, and the value still hasn't changed,
+              // then blur the field and persist the value.
+              input.blur();
+              localStorage.thang = input.value;
+            }
+          }, 3000);
+        }
+      }, false);
+    </script>
+  </body>
+</html>
